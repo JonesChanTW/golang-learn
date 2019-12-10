@@ -69,6 +69,17 @@ func main() {
 		if !true {
 			asynchronous.WaitGroupTest()
 		}
+
+		if !true {
+			asynchronous.ChannelTest()
+		}
+
+		if !true {
+			asynchronous.CommuntcationInToGorouting()
+		}
+		if !true {
+			asynchronous.ChannelBufferOrUnbufferTest()
+		}
 	}
 
 	if !true { ///panic aand recover
