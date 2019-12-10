@@ -183,8 +183,8 @@ func ChannelBufferTest() {
 	x := <-ch ///即使已經close但仍然可以讀取
 	fmt.Println("x = ", x)
 	fmt.Println("ch len = ", len(ch)) ///即使已經close 也可以查詢長度
-	ch <- 3                           ///但是因為close 所以這行注定造成panic
-	fmt.Println("ch len = ", len(ch))
-	fmt.Println("Start to wait finish")
-	time.Sleep(10 * time.Second)
+	// ch <- 3                           ///但是因為close 所以這行注定造成panic
+	// fmt.Println("ch len = ", len(ch))
+	// fmt.Println("Start to wait finish")
+	// time.Sleep(10 * time.Second)
 }
