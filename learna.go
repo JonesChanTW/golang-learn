@@ -82,6 +82,9 @@ func main() {
 			asynchronous.ContextWithCancelTest()
 		}
 
+		if true {
+			asynchronous.ContextWithCancelTest()
+		}
 	}
 
 	if !true { ///panic aand recover
