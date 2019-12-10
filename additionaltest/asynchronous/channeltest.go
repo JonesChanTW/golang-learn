@@ -102,25 +102,25 @@ type channel struct {
 	buffer BufferElement =  nil
 }
 func (ch *channel)read() interface {
-		mtx.Lock()
-		defer mtx.Unlock()
 		if ch.buffer == nil {
 			ch.buffer = [1]BufferElement
 		}
 		for ch.buffer is empty {
 			wait data
 		}
+		mtx.Lock()
+		defer mtx.Unlock()
 		read data
 	}
 	func (ch *channel)write( arg ... interface) {
-		mtx.Lock()
-		defer mtx.Unlock()
 		for buffer == nil {
 			wait buffr
 		}
 		if len(buffer) > max_size {
 			panic(...)
 		}
+		mtx.Lock()
+		defer mtx.Unlock()
 		write data
 	}
 */
