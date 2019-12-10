@@ -2,7 +2,6 @@ package asynchronous
 
 import (
 	"fmt"
-	"learn/additionaltest"
 	"time"
 )
 
@@ -24,61 +23,35 @@ func ChannelTest() {
 	fmt.Println("res = ", res)
 }
 
-func comTask(ch chan int, sn int) {
-	for i := 0; i < 10; i++ {
-		x := <-ch
-		fmt.Println("comTask", sn, " : ", x)
-		x++
-		ch <- x
-	}
-}
-
-// CommuntcationInToGorouting 用於兩個gorouting溝通
-func CommuntcationInToGorouting() {
-	ch := make(chan int)
-
-	/*
-		以此方式驗證 當成是跑到要跟channel拿資料的時候會處在等候狀態,
-		即使在gorouting中他也要等到從channel拿到資料後才會跑下一行
-		因此此範例中呼叫兩次go comTask之後若不給予任何輸入則兩個都不會做事情
-	*/
-	for i := 0; i < 2; i++ {
-		go comTask(ch, i)
-	}
-	ch <- 0
-
-	time.Sleep(10 * time.Second)
-}
-
 func worker1(ch chan int) {
 	var data string = ""
 	data = fmt.Sprintf("worker1 : Start...\n")
 	fmt.Println(data)
-	// additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+	// fmt.Println(data)
 	for {
 		data = fmt.Sprintf("worker1 : Start loop\n")
-		additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+		fmt.Println(data)
 		select {
 		case x := <-ch:
 			data = fmt.Sprintf("worker1 : got message x = %d\n", x)
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 
 			if x < 0 {
 				data = fmt.Sprintf("worker1 : going to exit,\n")
-				additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+				fmt.Println(data)
 				ch <- x
 
 				return
 			}
 			x++
 			data = fmt.Sprintf("worker1 : will send message %d\n", x)
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 			ch <- x
 			data = fmt.Sprintf("worker1 : send message %d\n", x)
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 		default:
 			data = fmt.Sprintf("worker1 : wait for message\n")
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 			time.Sleep(time.Second)
 		}
 		data = ""
@@ -89,17 +62,16 @@ func worker2(ch chan int) {
 	var data string = ""
 	data = fmt.Sprintf("worker2 : Start...\n")
 	fmt.Println(data)
-	// additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
 	for {
 		data = fmt.Sprintf("worker2 : Start loop\n")
-		additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+		fmt.Println(data)
 		select {
 		case x := <-ch:
 			data = fmt.Sprintf("worker2 : got message x = %d\n", x)
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 			if x < 0 {
 				data = fmt.Sprintf("worker2 : going to exit\n")
-				additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+				fmt.Println(data)
 				ch <- x
 
 				return
@@ -107,10 +79,10 @@ func worker2(ch chan int) {
 			x++
 			time.Sleep(3 * time.Second)
 			data = fmt.Sprintf("worker2 : will send message %d\n", x)
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 			ch <- x
 			data = fmt.Sprintf("worker2 : was send message %d\n", x)
-			additionaltest.FileOpenOrCreateAndWriteWithMutex(data)
+			fmt.Println(data)
 		default:
 			data = fmt.Sprintf("worker2 : wait for message\n")
 			time.Sleep(time.Second)
@@ -125,10 +97,13 @@ func worker2(ch chan int) {
 ch := make(chan int) : 這是預設做法,unbuffer,這種做法channel本身內部不會附帶buffer因此不論是讀 <- ch, 或者是寫 ch <- 都需要等到另一個部分的出現
 ch := make(chan int, 1) : 這種作法讓channel使體化當下內部就有buffer可以寫資料,因此 ch <- 不需要等待 <- ch
 實際上運作方式比較像是
+var mtx sync.Mutex
 type channel struct {
 	buffer BufferElement =  nil
 }
 func (ch *channel)read() interface {
+		mtx.Lock()
+		defer mtx.Unlock()
 		if ch.buffer == nil {
 			ch.buffer = [1]BufferElement
 		}
@@ -138,6 +113,8 @@ func (ch *channel)read() interface {
 		read data
 	}
 	func (ch *channel)write( arg ... interface) {
+		mtx.Lock()
+		defer mtx.Unlock()
 		for buffer == nil {
 			wait buffr
 		}

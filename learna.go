@@ -27,7 +27,7 @@ func main() {
 		fmt.Println("n out {}= ", n)
 	}
 
-	if true { /// array
+	if !true { /// array
 		arr := [5]int{5, 6, 7, 8, 9}
 
 		fmt.Println("arr = ", arr)
@@ -74,11 +74,16 @@ func main() {
 			asynchronous.ChannelTest()
 		}
 
-		if !true {
+		if !true { ///channel 展示gorouting 交換訊息
 			asynchronous.CommuntcationInToGorouting()
 		}
-		if !true {
+
+		if !true { ///channel buffer / unbuffer test
 			asynchronous.ChannelBufferOrUnbufferTest()
+		}
+
+		if !true {
+			asynchronous.ContextWithCancelTest()
 		}
 	}
 
