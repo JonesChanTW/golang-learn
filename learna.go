@@ -27,6 +27,14 @@ func main() {
 		fmt.Println("n out {}= ", n)
 	}
 
+	if true { /// array
+		arr := [5]int{5, 6, 7, 8, 9}
+
+		fmt.Println("arr = ", arr)
+		arr[0] = 10
+		fmt.Println("arr = ", arr)
+	}
+
 	if !true { ///for loop
 		additionaltest.LoopTest()
 	}
@@ -75,16 +83,15 @@ func main() {
 
 	}
 
-	if true {
+	if !true { ///defer test 驗證defer 特性
 		if !true {
 			additionaltest.DeferTest()
 		}
-		if true {
+		if !true {
 			additionaltest.DeferTestInFunc()
 		}
 	}
 
-	// spew.Dump()
 	if !true { ///database
 
 	}
