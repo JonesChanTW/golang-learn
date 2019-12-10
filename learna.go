@@ -74,10 +74,6 @@ func main() {
 			asynchronous.ChannelTest()
 		}
 
-		if !true { ///channel 展示gorouting 交換訊息
-			asynchronous.CommuntcationInToGorouting()
-		}
-
 		if !true { ///channel buffer / unbuffer test
 			asynchronous.ChannelBufferOrUnbufferTest()
 		}
@@ -85,6 +81,7 @@ func main() {
 		if !true {
 			asynchronous.ContextWithCancelTest()
 		}
+
 	}
 
 	if !true { ///panic aand recover
