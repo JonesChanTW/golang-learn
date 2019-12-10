@@ -118,6 +118,9 @@ func (ch *channel)read() interface {
 		for buffer == nil {
 			wait buffr
 		}
+		if len(buffer) > max_size {
+			panic(...)
+		}
 		write data
 	}
 */
@@ -155,4 +158,33 @@ func ChannelBufferOrUnbufferTest() {
 	time.Sleep(20 * time.Second)
 	<-ch
 	fmt.Println("Finish")
+}
+
+// ChannelBufferTest 測試給定各種buffer的狀態下的相關操作
+func ChannelBufferTest() {
+	// ch := make(chan int) ///default unbuffer 這寫法,在沒有gorouting的情況下必定造成deadlock...
+	ch := make(chan int, 2) ///defeult 給他設成兩個,前兩次寫入時無需等待,可以直接被寫入buffer中,第三個寫入動作則得看前兩個buffer,若還沒被拿走就必須等待,有被拿走的話就會有空的buffer可以被寫入
+
+	// go func() {
+	// 	fmt.Println("gorouting Start...")
+	// 	for val := range ch {
+	// 		fmt.Println("val = ", val)
+	// 	}
+	// }()
+	time.Sleep(5 * time.Second)
+	fmt.Println("Set ch value")
+	fmt.Println("ch len = ", len(ch))
+	ch <- 1
+	fmt.Println("ch len = ", len(ch))
+	ch <- 2
+	fmt.Println("ch len = ", len(ch))
+	close(ch) /// close 會使channel 變成唯獨狀態
+	fmt.Println("ch len = ", len(ch))
+	x := <-ch ///即使已經close但仍然可以讀取
+	fmt.Println("x = ", x)
+	fmt.Println("ch len = ", len(ch)) ///即使已經close 也可以查詢長度
+	ch <- 3                           ///但是因為close 所以這行注定造成panic
+	fmt.Println("ch len = ", len(ch))
+	fmt.Println("Start to wait finish")
+	time.Sleep(10 * time.Second)
 }

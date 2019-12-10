@@ -78,11 +78,15 @@ func main() {
 			asynchronous.ChannelBufferOrUnbufferTest()
 		}
 
+		if true {
+			asynchronous.ChannelBufferTest()
+		}
+
 		if !true {
 			asynchronous.ContextWithCancelTest()
 		}
 
-		if true {
+		if !true {
 			asynchronous.ContextWithCancelTest()
 		}
 	}
