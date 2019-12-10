@@ -92,6 +92,10 @@ func main() {
 		}
 	}
 
+	if !true { /// file operator
+		additionaltest.FileOpenOrCreateAndWrite("Hello file")
+	}
+
 	if !true { ///database
 
 	}
