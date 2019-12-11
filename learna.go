@@ -78,7 +78,7 @@ func main() {
 			asynchronous.ChannelBufferOrUnbufferTest()
 		}
 
-		if true {
+		if !true {
 			asynchronous.ChannelBufferTest()
 		}
 
@@ -88,6 +88,14 @@ func main() {
 
 		if !true {
 			asynchronous.ContextWithCancelTest()
+		}
+
+		if !true {
+			asynchronous.ContextTimeoutTest()
+		}
+
+		if true {
+			asynchronous.ContextDeadlineTest()
 		}
 	}
 
