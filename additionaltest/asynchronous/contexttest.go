@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+const routingNum int = 5 ///畢竟只是要展示cancle的用法,所以gorouting 別放太多,不然cancle的時候有機會造成主程式跑完了 其他的卻還正在結束
+
 func tesk(ctx context.Context, searial int) {
 	var x int64 = 0
 	for {
@@ -24,7 +26,6 @@ func tesk(ctx context.Context, searial int) {
 
 // ContextWithCancelTest cancle測試
 func ContextWithCancelTest() {
-	var routingNum int = 5 ///畢竟只是要展示cancle的用法,所以gorouting 別放太多,不然cancle的時候有機會造成主程式跑完了 其他的卻還正在結束
 	///先基本的要一個可以取消的context
 	ctx, cancleFunc := context.WithCancel(context.Background())
 
@@ -43,7 +44,7 @@ func ContextTimeoutTest() {
 	ctx, cancleFunc := context.WithTimeout(context.Background(), 5*time.Second) ///5秒逾時
 
 	defer cancleFunc()
-	for i := 0; i < 5; i++ {
+	for i := 0; i < routingNum; i++ {
 		tesk(ctx, i)
 	}
 
@@ -58,11 +59,9 @@ func ContextDeadlineTest() {
 
 	defer cancleFunc()
 	t := dl
-	str := fmt.Sprintf("test print %d", 6)
-	fmt.Println(str)
 	timeStr := fmt.Sprintf("%d-%d-%d %d:%d:%d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
 	fmt.Println("goroutings will be stop at ", timeStr)
-	for i := 0; i < 5; i++ {
+	for i := 0; i < routingNum; i++ {
 		go tesk(ctx, i)
 	}
 
