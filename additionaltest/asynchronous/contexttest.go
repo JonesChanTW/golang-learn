@@ -8,6 +8,10 @@ import (
 )
 
 const routingNum int = 5 ///畢竟只是要展示cancle的用法,所以gorouting 別放太多,不然cancle的時候有機會造成主程式跑完了 其他的卻還正在結束
+type WorkInfo struct {
+	workType int
+	content  string
+}
 
 func tesk(ctx context.Context, searial int, wg *sync.WaitGroup) {
 	var x int64 = 0
@@ -76,9 +80,11 @@ func ContextDeadlineTest() {
 // ContextValueTest Value
 func ContextValueTest() {
 	type ctxKey string
-	key := ctxKey("myKey")
+	key := ctxKey("firstWork")
+	info := WorkInfo{workType: 10, content: "This is Work info"}
+
 	cancleCtx, cancleFunc := context.WithCancel(context.Background())
-	ctx := context.WithValue(cancleCtx, key, 20) ///WithValue 的回傳中不包含 cancle func
+	ctx := context.WithValue(cancleCtx, key, info) ///WithValue 的回傳中不包含 cancle func
 	var wg sync.WaitGroup
 
 	for i := 0; i < routingNum; i++ {
