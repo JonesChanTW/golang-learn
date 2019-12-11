@@ -94,8 +94,12 @@ func main() {
 			asynchronous.ContextTimeoutTest()
 		}
 
-		if true {
+		if !true {
 			asynchronous.ContextDeadlineTest()
+		}
+
+		if true {
+			asynchronous.ContextValueTest()
 		}
 	}
 
