@@ -7,6 +7,8 @@ import (
 
 	"learn/additionaltest/asynchronous"
 	"learn/additionaltest/dbtest"
+	"learn/additionaltest/web/webclient"
+	"learn/additionaltest/web/webserver"
 
 	//_ "github.com/go-sql-driver/mysql"
 
@@ -103,6 +105,16 @@ func main() {
 
 		if !true {
 			asynchronous.ContextValueTest()
+		}
+	}
+
+	if !true { ///網頁相關
+		if !true {
+			webclient.ClientGetData()
+		}
+
+		if !true {
+			webserver.OriginHTTPRun()
 		}
 	}
 
