@@ -6,8 +6,11 @@ import (
 	"learn/additionaltest"
 
 	"learn/additionaltest/asynchronous"
+	"learn/additionaltest/dbtest"
 
-	_ "github.com/go-sql-driver/mysql"
+	//_ "github.com/go-sql-driver/mysql"
+
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 // type Human additionaltest.Human
@@ -57,7 +60,7 @@ func main() {
 		fmt.Println("another people", so2)
 	}
 
-	if true { ///asynchronous
+	if !true { ///asynchronous
 		if !true { ///普通的gorouting test
 			asynchronous.GoroutingTest()
 		}
@@ -98,7 +101,7 @@ func main() {
 			asynchronous.ContextDeadlineTest()
 		}
 
-		if true {
+		if !true {
 			asynchronous.ContextValueTest()
 		}
 	}
@@ -128,8 +131,8 @@ func main() {
 		additionaltest.FileOpenOrCreateAndWrite("Hello file")
 	}
 
-	if !true { ///database
-
+	if true { ///database
+		dbtest.GormTest()
 	}
 
 	// var scanStr string = ""
