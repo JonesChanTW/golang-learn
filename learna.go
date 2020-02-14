@@ -15,7 +15,8 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-// type Human additionaltest.Human
+/// human 取個別名
+type human = additionaltest.Human
 
 var n = 111 ///這應該是相對Package內部的全域變數了,整個Package都看的到他
 // x := 100	/// := 只提供區域變數,最少得在func內部,但也可以是 func 內部的 {} 裡面使用,反正他一旦離開最接近的{} 區塊就無效了
@@ -44,7 +45,7 @@ func main() {
 		additionaltest.LoopTest()
 	}
 
-	if !true { ///Map
+	if true { ///Map
 		additionaltest.TestMap()
 	}
 
@@ -60,6 +61,36 @@ func main() {
 		so2.Name = "John"
 		fmt.Println("a man ", someone.GetName())
 		fmt.Println("another people", so2)
+	}
+
+	if !true { ///指標
+		/// 非指標變數,實體互相= 會造成資料拷貝,但若是指標則只會指向同一份內容
+		/// 拷貝的副本即使被修改也不會影響原本的內容,但指標的話一旦修改內容,就會連原本的一起被改
+		var h1 human
+		var h2 human
+		var ph *human
+
+		h1.Name = "user1"
+		h1.Age = 20
+
+		fmt.Println("h1 = ", h1, " h2 = ", h2)
+		h2 = h1
+		fmt.Println("h1 = ", h1, " h2 = ", h2)
+		h2.Age = 30
+		fmt.Println("h1 = ", h1, " h2 = ", h2)
+		ph = &h1
+		ph.Age = 40
+		fmt.Println("h1 = ", h1, " h2 = ", h2)
+	}
+
+	if !true { //slice
+		sli := make([]int, 1)
+
+		fmt.Println("sli = ", sli)
+		for i := 0; i < 1; i++ {
+			sli[i] = i
+		}
+		fmt.Println("sli = ", sli)
 	}
 
 	if !true { ///asynchronous
@@ -143,7 +174,7 @@ func main() {
 		additionaltest.FileOpenOrCreateAndWrite("Hello file")
 	}
 
-	if true { ///database
+	if !true { ///database
 		dbtest.GormTest()
 	}
 
