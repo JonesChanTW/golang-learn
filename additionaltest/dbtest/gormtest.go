@@ -20,6 +20,7 @@ type programTestTable struct {
 
 // TestTable  原始測試表,非GORM建立
 // 由於非gorm創建的表格,因此表的欄位名稱與結構的欄位對應建議自己寫上會比較妥當,避免因為認定上不同造成gorm找不到對應的欄位而沒把撈到的資料寫回來
+// 重要的一點, golang中或許不會限制你變數名稱非得開頭大寫,但是GORM中這是必須,開頭小寫的變數即使後面的`gorm:"..." 中的內容都對,但就是會發生有撈取到資料但不會寫入回傳的變數中的情況`
 type TestTable struct {
 	//gorm.Model
 	ID   int    `gorm:"column:ID;primary_key:ID; AUTO_INCREMENT:number"`
